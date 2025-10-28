@@ -49,6 +49,7 @@ jobs:
       - name: 🏫 Build Infodazz School
         run: |
           echo "🚀 Building Infodazz School for ${{ matrix.os }}"
+          cd electron
           npx electron-builder --config electron-builder-school.yml --publish always
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -57,6 +58,7 @@ jobs:
       - name: 🧠 Build Infodazz Face
         run: |
           echo "🚀 Building Infodazz Face for ${{ matrix.os }}"
+          cd electron
           npx electron-builder --config electron-builder-face.yml --publish always
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
