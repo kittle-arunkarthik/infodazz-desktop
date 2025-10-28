@@ -43,10 +43,10 @@ jobs:
         run: |
           cd SCHOOL/client
           rm -f package-lock.json
-          npm ci --no-optional --ignore-scripts
+          npm_config_ignore_platform=true npm install --no-audit --no-fund
           npm run build
           cd ../../FACE/client
-          npm ci --no-optional --ignore-scripts
+          npm ci
           npm run build
           cd ../../electron
 
