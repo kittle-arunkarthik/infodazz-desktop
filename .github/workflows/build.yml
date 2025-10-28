@@ -1,0 +1,62 @@
+name: 🏗️ Build and Release Infodazz Desktop (from RVK/arun-dev-2)
+
+on:
+  workflow_dispatch:              # Allow manual trigger from GitHub UI
+  repository_dispatch:            # Trigger via API call (from RVK)
+    types: [trigger-build]
+  push:
+    tags:
+      - "v*"                      # Optional: build when a tag is pushed
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      # 1️⃣ Checkout the SOURCE CODE (from RVK repo, branch: arun-dev-2)
+      - name: Checkout RVK Source Code
+        uses: actions/checkout@v4
+        with:
+          repository: kittlesuriya/RVK
+          ref: arun-dev-2
+          token: ${{ secrets.SOURCE_REPO_TOKEN }}
+          fetch-depth: 0
+
+      # 2️⃣ Setup Node.js (match your local dev)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # 3️⃣ Install dependencies
+      - name: Install Electron dependencies
+        run: |
+          cd electron
+          npm ci
+
+      # 4️⃣ Build React (SCHOOL + FACE)
+      - name: Build React apps
+        run: |
+          cd SCHOOL/client && npm ci && npm run build
+          cd ../../FACE/client && npm ci && npm run build
+          cd ../../electron
+
+      # 5️⃣ Build & Publish Electron App
+      - name: Build and Publish Electron App
+        run: |
+          echo "🚀 Building Infodazz Desktop for ${{ matrix.os }}"
+          npx electron-builder --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      # 6️⃣ Upload build artifacts (optional for debugging)
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Infodazz-${{ matrix.os }}
+          path: electron/release/
