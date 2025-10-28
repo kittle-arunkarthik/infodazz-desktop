@@ -8,6 +8,7 @@ directories:
 
 files:
   - "**/*"
+  - "../SCHOOL/client/dist/**/*"
   - "../FACE/client/dist/**/*"
   - "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}"
   - "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}"
@@ -22,12 +23,14 @@ files:
   - "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
 
 extraFiles:
+  - from: "../SCHOOL/client/dist"
+    to: "resources/school"
+    filter: ["**/*"]
   - from: "../FACE/client/dist"
     to: "resources/face"
     filter: ["**/*"]
 
 asar: true
-compression: normal 
 
 # Pass --face argument to electron
 extraMetadata:
@@ -36,7 +39,7 @@ extraMetadata:
 win:
   target:
     - target: nsis
-      arch: [x64, ia32]
+      arch: [x64]
     - target: portable
       arch: [x64]
   icon: build/icons/icon.ico
