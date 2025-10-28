@@ -42,9 +42,18 @@ jobs:
       - name: Build React apps
         run: |
           cd SCHOOL/client
-          curl -fsSL https://bun.sh/install | bash
-          export BUN_INSTALL="$HOME/.bun"
-          export PATH="$BUN_INSTALL/bin:$PATH"
+          if [[ "$RUNNER_OS" == "Windows" ]]; then
+            echo "🪟 Installing Bun on Windows..."
+            powershell -Command "irm bun.sh/install.ps1 | iex"
+            export BUN_INSTALL="$Env:USERPROFILE\\.bun"
+            export PATH="$BUN_INSTALL\\bin;$PATH"
+          else
+            echo "🐧 Installing Bun on Linux/macOS..."
+            curl -fsSL https://bun.sh/install | bash
+            export BUN_INSTALL="$HOME/.bun"
+            export PATH="$BUN_INSTALL/bin:$PATH"
+          fi
+          echo "⚙️ Installing dependencies & building SCHOOL..."
           bun install
           bun run build
           cd ../../FACE/client
