@@ -13,6 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
+      max-parallel: 1
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -85,6 +86,8 @@ jobs:
           npx electron-builder --config electron-builder-school.yml --publish always
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          EP_DRAFT: false
+          EP_PRE_RELEASE: false
 
       # 6️⃣ Build and Publish Infodazz FACE app
       - name: 🧠 Build Infodazz Face
@@ -94,6 +97,8 @@ jobs:
           npx electron-builder --config electron-builder-face.yml --publish always
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          EP_DRAFT: false
+          EP_PRE_RELEASE: false
 
       # 7️⃣ Upload combined build artifacts (for inspection/debugging)
       - name: 📤 Upload build artifacts
