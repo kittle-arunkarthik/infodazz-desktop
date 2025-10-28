@@ -40,6 +40,7 @@ jobs:
 
       # 4️⃣ Build React apps (SCHOOL + FACE)
       - name: Build React apps
+        shell: bash
         run: |
           cd SCHOOL/client
           if [[ "$RUNNER_OS" == "Windows" ]]; then
