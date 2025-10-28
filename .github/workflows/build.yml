@@ -83,7 +83,7 @@ jobs:
         run: |
           echo "🚀 Building Infodazz School for ${{ matrix.os }}"
           cd electron
-          npx electron-builder --config electron-builder-school.yml --publish always
+          npx electron-builder --config electron-builder-school.yml --publish onTagOrDraft
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           EP_DRAFT: false
@@ -94,7 +94,7 @@ jobs:
         run: |
           echo "🚀 Building Infodazz Face for ${{ matrix.os }}"
           cd electron
-          npx electron-builder --config electron-builder-face.yml --publish always
+          npx electron-builder --config electron-builder-face.yml --publish onTagOrDraft
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           EP_DRAFT: false
