@@ -13,6 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
+      max-parallel: 1
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -82,7 +83,7 @@ jobs:
         run: |
           echo "🚀 Building Infodazz School for ${{ matrix.os }}"
           cd electron
-          npx electron-builder --config electron-builder-school.yml --publish onTagOrDraft
+          npx electron-builder --config electron-builder-school.yml --publish always
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           EP_DRAFT: false
@@ -93,7 +94,7 @@ jobs:
         run: |
           echo "🚀 Building Infodazz Face for ${{ matrix.os }}"
           cd electron
-          npx electron-builder --config electron-builder-face.yml --publish onTagOrDraft
+          npx electron-builder --config electron-builder-face.yml --publish always
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           EP_DRAFT: false
