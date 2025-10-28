@@ -50,12 +50,6 @@
             "x64",
             "ia32"
           ]
-        },
-        {
-          "target": "portable",
-          "arch": [
-            "x64"
-          ]
         }
       ],
       "icon": "build/icons/icon.ico",
@@ -126,18 +120,6 @@
             "x64",
             "arm64"
           ]
-        },
-        {
-          "target": "rpm",
-          "arch": [
-            "x64"
-          ]
-        },
-        {
-          "target": "snap",
-          "arch": [
-            "x64"
-          ]
         }
       ],
       "icon": "build/icons",
@@ -174,17 +156,19 @@
     "build:win": "electron-builder --win",
     "build:mac": "electron-builder --mac",
     "build:linux": "electron-builder --linux",
-    "release": "npm version patch --no-git-tag-version && electron-builder --publish always",
-    "release:win": "electron-builder --publish always --win",
-    "release:mac": "electron-builder --publish always --mac",
-    "release:linux": "electron-builder --publish always --linux",
+    "patch": "npm version patch --no-git-tag-version",
+    "release:remote": "node scripts/trigger-release.js",
+    "release": "npm version patch --no-git-tag-version && npm run release:school && npm run release:face",
+    "release:all": "npm run release:school && npm run release:face",
+    "release:school": "electron-builder --config electron-builder-school.yml --publish always",
+    "release:face": "electron-builder --config electron-builder-face.yml --publish always",
     "icons": "electron-icon-builder --input=assets/images/icon.png --output=build/ --flatten",
     "clean": "powershell -Command \"Remove-Item -Recurse -Force $env:LOCALAPPDATA\\electron-builder,$env:LOCALAPPDATA\\electron -ErrorAction SilentlyContinue; npm cache clean --force\""
-
   },
   "keywords": [],
   "author": "Kittle Arun Karthik <kittle.arunkarthik@gmail.com>",
   "license": "ISC",
+  "homepage": "https://github.com/kittle-arunkarthik/infodazz-desktop",
   "description": "Infodazz Desktop Application",
   "dependencies": {
     "concurrently": "^9.2.1",
