@@ -42,10 +42,10 @@ jobs:
       - name: Build React apps
         run: |
           cd SCHOOL/client
-          npm ci
+          npm install
           npm run build
           cd ../../FACE/client
-          npm ci
+          npm install
           npm run build
           cd ../../electron
 
