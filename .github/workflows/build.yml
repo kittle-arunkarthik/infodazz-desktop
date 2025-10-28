@@ -42,6 +42,7 @@ jobs:
       - name: Build React apps
         run: |
           cd SCHOOL/client
+          rm -f package-lock.json
           npm ci --no-optional --ignore-scripts
           npm run build
           cd ../../FACE/client
