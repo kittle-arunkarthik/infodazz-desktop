@@ -17,7 +17,7 @@ jobs:
 
     steps:
       # 1️⃣ Checkout SOURCE CODE (from RVK repo, branch arun-dev-2)
-      - name: Checkout RVK Source Code
+      - name: 📦 Checkout RVK Source Code
         uses: actions/checkout@v4
         with:
           repository: kittlesuriya/RVK
@@ -26,40 +26,55 @@ jobs:
           fetch-depth: 0
 
       # 2️⃣ Setup Node.js
-      - name: Setup Node.js
+      - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
       # 3️⃣ Install Electron dependencies
-      - name: Install Electron dependencies
+      - name: ⚡ Install Electron dependencies
         run: |
           cd electron
           npm ci
 
       # 4️⃣ Build React apps (SCHOOL + FACE)
-      - name: Build React apps
+      - name: 🧱 Build React apps (SCHOOL + FACE)
         shell: bash
         run: |
+          echo "📦 Building SCHOOL and FACE React apps on $RUNNER_OS"
+
+          # === SCHOOL BUILD ===
           cd SCHOOL/client
+
           if [[ "$RUNNER_OS" == "Windows" ]]; then
             echo "🪟 Installing Bun on Windows..."
             powershell -Command "irm bun.sh/install.ps1 | iex"
-            export BUN_INSTALL="$Env:USERPROFILE\\.bun"
-            export PATH="$BUN_INSTALL\\bin;$PATH"
+
+            # ✅ Explicitly configure Bun path
+            export BUN_INSTALL="$USERPROFILE\\.bun"
+            export PATH="$BUN_INSTALL\\bin:$PATH"
+
+            echo "✅ Bun installed at $BUN_INSTALL"
+            ls "$BUN_INSTALL\\bin"
           else
             echo "🐧 Installing Bun on Linux/macOS..."
             curl -fsSL https://bun.sh/install | bash
             export BUN_INSTALL="$HOME/.bun"
             export PATH="$BUN_INSTALL/bin:$PATH"
           fi
+
           echo "⚙️ Installing dependencies & building SCHOOL..."
-          bun install
-          bun run build
+          "$BUN_INSTALL/bin/bun" install --no-save
+          "$BUN_INSTALL/bin/bun" run build
+
+          # === FACE BUILD ===
           cd ../../FACE/client
-          npm install
+          echo "⚙️ Installing dependencies & building FACE..."
+          npm ci || npm install
           npm run build
+
+          # Back to electron folder
           cd ../../electron
 
       # 5️⃣ Build and Publish Infodazz SCHOOL app
@@ -80,10 +95,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      # 7️⃣ Upload combined build artifacts (optional for debugging)
-      - name: Upload artifacts
+      # 7️⃣ Upload combined build artifacts (for inspection/debugging)
+      - name: 📤 Upload build artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: Infodazz-${{ matrix.os }}
-          path: electron/release/
+          path: |
+            electron/release/
