@@ -42,8 +42,7 @@ jobs:
       - name: Build React apps
         run: |
           cd SCHOOL/client
-          rm -f package-lock.json
-          npm_config_ignore_platform=true npm install --no-audit --no-fund
+          npm ci
           npm run build
           cd ../../FACE/client
           npm ci
