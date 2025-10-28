@@ -41,8 +41,12 @@ jobs:
       # 4️⃣ Build React apps (SCHOOL + FACE)
       - name: Build React apps
         run: |
-          cd SCHOOL/client && npm ci && npm run build
-          cd ../../FACE/client && npm ci && npm run build
+          cd SCHOOL/client
+          npm ci --no-optional --ignore-scripts
+          npm run build
+          cd ../../FACE/client
+          npm ci --no-optional --ignore-scripts
+          npm run build
           cd ../../electron
 
       # 5️⃣ Build and Publish Infodazz SCHOOL app
