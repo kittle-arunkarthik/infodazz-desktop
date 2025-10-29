@@ -1,4 +1,4 @@
-name: 🏗️ Build and Release Infodazz Face & School (from RVK/arun-dev-2)
+name: 🏗️ Build and Release Infodazz Face & School (from infodazz_school/arun-dev)
 
 on:
   workflow_dispatch:
