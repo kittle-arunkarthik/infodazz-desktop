@@ -21,8 +21,8 @@ jobs:
       - name: 📦 Checkout RVK Source Code
         uses: actions/checkout@v4
         with:
-          repository: kittlesuriya/RVK
-          ref: arun-dev-2
+          repository: kittle-arunkarthik/infodazz_school
+          ref: arun-dev
           token: ${{ secrets.SOURCE_REPO_TOKEN }}
           fetch-depth: 0
 
