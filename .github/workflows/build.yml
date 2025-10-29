@@ -113,7 +113,7 @@ jobs:
 
   build-face:
     if: |
-      contains(github.ref, 'refs/tags/school-v') ||
+      contains(github.ref, 'refs/tags/face-v') ||
       (github.event_name == 'repository_dispatch' && github.event.action == 'build-school') ||
       (github.event_name == 'repository_dispatch' && github.event.action == 'trigger-build')
     strategy:
