@@ -3,7 +3,7 @@ name: 🏗️ Build and Release Infodazz Face & School (from infodazz_school/aru
 on:
   workflow_dispatch:
   repository_dispatch:
-    types: [trigger-build]
+    types: [build-face, build-school, trigger-build]
   push:
     tags:
       - "school-v*"
