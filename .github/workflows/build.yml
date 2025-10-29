@@ -14,6 +14,7 @@ jobs:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
       max-parallel: 1
+      fail-fast: false 
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -88,6 +89,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           EP_DRAFT: false
           EP_PRE_RELEASE: false
+          DEBUG: electron-builder
 
       # 6️⃣ Build and Publish Infodazz FACE app
       - name: 🧠 Build Infodazz Face
@@ -99,6 +101,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           EP_DRAFT: false
           EP_PRE_RELEASE: false
+          DEBUG: electron-builder
 
       # 7️⃣ Upload combined build artifacts (for inspection/debugging)
       - name: 📤 Upload build artifacts
