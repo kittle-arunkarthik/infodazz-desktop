@@ -3,19 +3,19 @@ name: 🏗️ Build and Release Infodazz Face & Erp (from infodazz_erp/arun-dev)
 on:
   workflow_dispatch:
   repository_dispatch:
-    types: [build-school, trigger-build]
+    types: [build-erp, trigger-build]
   push:
     tags:
-      - "school-v*"
+      - "erp-v*"
 
 jobs:
   # =========================================================
   # 🏫 BUILD & RELEASE - ERP
   # =========================================================
-  build-school:
+  build-erp:
     if: |
-      contains(github.ref, 'refs/tags/school-v') ||
-      (github.event_name == 'repository_dispatch' && github.event.action == 'build-school') ||
+      contains(github.ref, 'refs/tags/erp-v') ||
+      (github.event_name == 'repository_dispatch' && github.event.action == 'build-erp') ||
       (github.event_name == 'repository_dispatch' && github.event.action == 'trigger-build')
     strategy:
       matrix:
@@ -91,7 +91,7 @@ jobs:
         run: |
           echo "🚀 Building Infodazz Erp for ${{ matrix.os }}"
           cd electron
-          npx electron-builder --config electron-builder-school.yml --publish always
+          npx electron-builder --config electron-builder-erp.yml --publish always
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           EP_DRAFT: false
@@ -104,4 +104,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Infodazz-Erp-${{ matrix.os }}-${{ github.ref_name }}
-          path: electron/release/school/
+          path: electron/release/erp/
